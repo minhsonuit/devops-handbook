@@ -114,3 +114,37 @@ Vi ly do tren, nguyen tac toi thuong trong DevSecOps la **Tool quet chi phat hie
 Gitleaks la chot chan (guardrail) vao phut chot, chu khong the thay the cho:
 1. Tu duy su dung `.gitignore` dung cach.
 2. Phan quyen truy cap va su dung he thong Secrets Vault (Azure Key Vault, Hashicorp Vault).
+
+---
+
+## 5. He sinh thai cac cong cu quet khac
+
+Gitleaks chi la mot manh ghep trong DevSecOps. Duoi day la cac cong cu pho bien khac (phan loai theo tieu chi Mien phi vs Co phi).
+
+### A. Cong cu Mien phi / Open Source (Nen dung)
+
+#### 1. TruffleHog (by Truffle Security)
+- **Diem manh nhat:** Tinh nang **Verified (Kiem chung)**. 
+- **Cach hoat dong:** Khi TruffleHog quet thay mot AWS Key hay GitHub Token, no khong chi canh bao ma con *thuc su gui mot API request len server AWS/GitHub* de kiem tra xem Key do co dang hoat dong (Live) hay khong.
+- **Ung dung:** Rat tot de chay tren CI/CD Pipeline. Neu phat hien Key dang "Live", no se dung pipeline ngay lap tuc. Giup giam ty le bao dong gia (False Positive) xuong muc thap nhat.
+
+#### 2. Semgrep (Phien ban OSS)
+- **Diem manh nhat:** Doc hieu bối cảnh code (SAST - Static Analysis).
+- **Cach hoat dong:** Khac voi Gitleaks (chi quet chuoi), Semgrep hieu cu phap code (AST). Neu no thay lenh `var dbPassword = "abc@123#$"`, no hieu day la thao tac gan mat khau nen se bat loi ngay.
+- **Ung dung:** Giai quyet hoan hao diem yeu "Khong bat duoc mat khau tu tao co ky tu dac biet" cua Gitleaks.
+
+#### 3. GitHub Secret Scanning
+- **Diem manh nhat:** Tich hop san, mien phi cho Public Repos, co tinh nang **Auto-Revoke**.
+- **Cach hoat dong:** GitHub co "duong day nong" voi cac ong lon (AWS, Stripe, npm...). Khi ban lo push AWS Key len Github, Github se bao cho AWS biet de AWS tu dong huy (revoke) Key do chi trong vong chua toi 1 giay truoc khi hacker kip lay.
+
+### B. Cong cu Co phi / Enterprise (Tham khao)
+
+Doi voi moi truong doanh nghiep can Dashboard dep, tinh nang phan quyen xu ly su co (Incident management) va ho tro ky thuat:
+- **GitGuardian:** Giai phap so 1 hien nay, giao dien truc quan, thong ke chi tiet.
+- **Snyk Code:** Manh ve tich hop IDE va CI/CD.
+- **Spectral (Check Point):** Quet toc do cao, tich hop he sinh thai Check Point.
+
+> **Chien luoc thuc te cho du an:**
+> - Máy Dev (Pre-commit): **Gitleaks** (nhe, nhanh).
+> - CI/CD Pipeline: **TruffleHog** (kiem chung key) + **Semgrep** (bat mat khau trong code).
+> - Server luu tru: Bật **GitHub Secret Scanning**.
