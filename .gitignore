@@ -4,6 +4,9 @@
 *~
 .env
 docker-compose.yml
+nginx.conf
+nginx.refactor.conf
+nginx.refactored.conf
 
 # *ngrok
 
