@@ -9,6 +9,7 @@ DevSecOps — bao mat trong toan bo lifecycle.
 - [03-secrets-management.md](03-secrets-management.md) — Vault, Azure Key Vault, K8s secrets
 - [04-hardening.md](04-hardening.md) — OS hardening, CIS benchmarks
 - [05-audit-and-compliance.md](05-audit-and-compliance.md) — Logging, audit trails, RBAC
+- [06-git-secret-scanning.md](06-git-secret-scanning.md) — Gitleaks, pre-commit hooks, secret detection rules
 
 ## Lien quan
 

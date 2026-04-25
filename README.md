@@ -100,7 +100,7 @@
 
 | Thu muc | Files | Noi dung |
 |---------|-------|----------|
-| [security/](security/) | 5 | [Container](security/01-container-security.md) · [Network](security/02-network-security.md) · [Secrets](security/03-secrets-management.md) · [Hardening](security/04-hardening.md) · [Audit](security/05-audit-and-compliance.md) |
+| [security/](security/) | 6 | [Container](security/01-container-security.md) · [Network](security/02-network-security.md) · [Secrets](security/03-secrets-management.md) · [Hardening](security/04-hardening.md) · [Audit](security/05-audit-and-compliance.md) · [Git Secrets](security/06-git-secret-scanning.md) |
 | [troubleshooting/](troubleshooting/) | 5 | [Methodology](troubleshooting/01-methodology.md) · [Docker](troubleshooting/02-docker-issues.md) · [Network](troubleshooting/03-network-issues.md) · [Performance](troubleshooting/04-performance.md) · [Incidents](troubleshooting/05-incident-response.md) |
 
 ### ⭐ Wisdom
