@@ -89,3 +89,28 @@ De dam bao khi secret lọt ra ngoai se BỊ GITLEAKS BAT DUOC 100%, hay ap dung
 - ❌ Mat khau sinh ngau nhien: `9xK2mPq$L8` (Tool co the bo xot vi nhin giong 1 doan string random binh thuong)
 - ✅ Mat khau co tien to nhan dien: `mycorp_prod_9xK2mPq$L8`
 - Khi do ban co the configure gitleaks block tuyet doi moi text nao co chu `mycorp_prod_`.
+
+---
+
+## 4. Hieu ro han che: Secret Scanner KHONG PHAI la Password Checker
+
+Day la mot bai hoc xuong mau ve ky thuat (technical nuance) cua cac he thong quet:
+
+**Cong cu nhu Gitleaks duoc thiet ke de tim Token cua he thong, chu khong phai mat khau do con nguoi tao ra.**
+
+### Bieu thuc chinh quy (Regex) vs Ky tu dac biet
+Da so cac token that cua cac hang (AWS, Stripe, Github, JWT...) deu duoc ma hoa duoi dang `Base64` hoac `Hex`. Bảng mã này **chỉ bao gồm** chu cai (`a-z`, `A-Z`), so (`0-9`) va dau gach ngang (`-`, `_`). Chung **KHONG BAO GIO** chua cac ky tu dac biet nhu `@`, `$`, `#`.
+
+Vi vay, luat quet cua Gitleaks (VD: rule `generic-api-key`) thuong chi gioi han ở bieu thuc Regex: `[a-zA-Z0-9\-_]{16,64}`.
+
+### Chuyen gi xay ra neu Dev go mat khau cuc kho?
+Neu ban hardcode: `DB_PASSWORD: abc@123hvnhiycpoui0876$567v2jdl#@vn` (do dai tren 30 ky tu, do phuc tap cuc cao).
+
+**Ket qua: Gitleaks SE BO QUA!**
+Li do: Khi no doc thay cac ky tu `@`, `$`, `#`, engine Regex cua Gitleaks bi "lech pha" khoi quy luat cua mot Token tieu chuan. No tu dong hieu rang *"Day la mat khau do con nguoi tu go"* chu khong phai Token cua he thong, va no khong chan. (Dau vay, Gitleaks van se catch neu ban viet dung luat rieng cho no, nhung luat mac dinh thi khong).
+
+### Nguyen tac phong thu nhieu lop (Defense in Depth)
+Vi ly do tren, nguyen tac toi thuong trong DevSecOps la **Tool quet chi phat hien duoc 1 phan, KHONG BAO GIO la 100%**. 
+Gitleaks la chot chan (guardrail) vao phut chot, chu khong the thay the cho:
+1. Tu duy su dung `.gitignore` dung cach.
+2. Phan quyen truy cap va su dung he thong Secrets Vault (Azure Key Vault, Hashicorp Vault).
